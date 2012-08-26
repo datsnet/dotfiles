@@ -1,0 +1,13 @@
+;; html5.el
+git clone git://github.com/hober/html5-el.git
+cd ./html5-el
+make relaxng
+
+;; rhtml-mode
+cd ~/.emacs.d
+git clone git://github.com/eschulte/rhtml.git
+
+;; emoji.el
+cd ~/.emacs.d/public_repos
+git clone git://github.com/imakado/emoji.git
+

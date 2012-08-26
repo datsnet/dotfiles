@@ -1,0 +1,8 @@
+;; jslのインストール
+curl -O http://www.javascriptlint.com/download/jsl-0.3.0-mac.tar.gz
+tar xvf jsl-0.3.0-mac.tar.gz
+sudo cp ./jsl-0.3.0-mac/jsl /usr/local/bin/jsl
+
+;; Windowsの場合
+http://www.javascriptlint.com/download/jsl-0.3.0-win32.zip
+

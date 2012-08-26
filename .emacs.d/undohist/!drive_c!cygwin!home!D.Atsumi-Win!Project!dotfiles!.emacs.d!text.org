@@ -1,0 +1,2 @@
+
+((digest . "1d53a5b9da95fb16f43dbc95d5de3db7") (undo-list nil (8 . 9) nil (1 . 8) nil (#("g" 0 1 (fontified t)) . -1) ((marker . 9) . -1) nil (#("h" 0 1 (fontified t)) . -2) ((marker . 9) . -1) nil (#("a" 0 1 (fontified t)) . -3) ((marker . 9) . -1) nil (1 . 4) (t 0 . 0)))

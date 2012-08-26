@@ -1,0 +1,5 @@
+
+((digest . "da1921bec9b47602ec04ba02b8503af7") (undo-list (131 . 132) nil (111 . 131) nil (110 . 111) nil (97 . 110) nil (#("7" 0 1 (fontified t face (action-lock-face))) . -97) nil (96 . 98) nil (#("4" 0 1 (fontified t face (action-lock-face))) . -96) nil (84 . 97) nil (64 . 84) nil (7 . 20) nil (4 . 7) nil (#("i" 0 1 (fontified t face (howm-mode-title-face))) . -4) nil (#("w" 0 1 (fontified t face (howm-mode-title-face))) . -5) nil (3 . 6) nil ("%cursor" . -3) (30 . 52) ("%file" . -30) (11 . 29) ("%date" . -11) ("%title" . -3) (1 . 30) ("= 
+[2012-04-21 10:27] 
+
+" . 1) 3 ((marker . 1) . -24) nil ("%cursor" . -3) ("%file" . -30) (11 . 29) ("%date" . -11) ("%title" . -3) (1 . 30) (t 65535 . 65535)))
