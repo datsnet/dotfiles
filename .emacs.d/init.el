@@ -66,7 +66,7 @@
 
 
 ;; バッテリー残量表示
-(display-battery-mode t)
+;;(display-battery-mode t)
 
 ;; C-mにnewline-and-intentを割り当てる。初期値はnewline
 (global-set-key (kbd "C-m") 'newline-and-indent)
@@ -177,12 +177,12 @@
   (auto-install-compatibility-setup))
 
 ;; redo+の設定
-(when (require 'redo+ nil t)
+;;(when (require 'redo+ nil t)
   ;; C-'にリドゥを割り当てる
-  (global-set-key (kbd "C-'") 'redo)
+;;  (global-set-key (kbd "C-'") 'redo)
   ;; 日本語キーボード用
-  (global-set-key (kbd "C-.") 'redo)
-  )
+;;  (global-set-key (kbd "C-.") 'redo)
+;;  )
 
 ;; package.elの設定
 (when (require 'package nil t)
@@ -190,6 +190,8 @@
   (add-to-list 'package-archives
 			   '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
+  ;; MELPAを追加
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
   ;; インストールしたパッケージロードパスを通して読み込む
   (package-initialize))
 
@@ -281,12 +283,12 @@
 (require 'wgrep nil t)
 
 ;; undohistの設定
-(when (require 'undohist nil t)
-  (undohist-initialize))
+;;(when (require 'undohist nil t)
+;;  (undohist-initialize))
 
 ;; undo-treeの設定
-(when (require 'undo-tree nil t)
-  (global-undo-tree-mode))
+;;(when (require 'undo-tree nil t)
+;;  (global-undo-tree-mode))
 
 ;; point-undoの設定
 (when (require 'point-undo nil t)
@@ -340,10 +342,10 @@
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-z_]+\\)?\\'" . nxml-mode))
 
 ;; HTML5
-(eval-after-load "rng-loc"
-  '(add-to-list 'rng-schema-locating-files
-				"~/.emacs.d/public_repos/html5-el/schemas.xml"))
-(require 'whattf-dt)
+;;(eval-after-load "rng-loc"
+;;  '(add-to-list 'rng-schema-locating-files
+;;				"~/.emacs.d/public_repos/html5-el/schemas.xml"))
+;;(require 'whattf-dt)
 
 
 ;;;;;;;;;;;;;;;;;;; Ruby 設定 ;;;;;;;;;;;;;;;;;;;
@@ -566,17 +568,17 @@
 
 
 ;; emacsclientの設定
-(require 'server)
-(unless (server-running-p)
-(server-start))
-(defun iconify-emacs-when^server-is-done ()
-  (unless server-clients (iconify-frame)))
+;;(require 'server)
+;;(unless (server-running-p)
+;;(server-start))
+;;(defun iconify-emacs-when^server-is-done ()
+;;  (unless server-clients (iconify-frame)))
 ;; 編集が終了したらEmacsをアイコン化する
-(add-hook 'server-done-hook 'iconify-emacs-when^server-is-done)
+;;(add-hook 'server-done-hook 'iconify-emacs-when^server-is-done)
 ;; C-x C-cに割り当てる
-(global-set-key (kbd "C-x C-c") 'server-edit)
+;;(global-set-key (kbd "C-x C-c") 'server-edit)
 ;; M-x exitでEmacsを終了できるようにする
-(defalias 'exit 'save-buffers-kill-emacs)
+;;(defalias 'exit 'save-buffers-kill-emacs)
 
 
 ;; navi2ch 2チャンネルブラウザ
@@ -595,3 +597,35 @@
 ;; 履歴の行数を制限しない
 (setq navi2ch-history-max-line nil)
 
+;; magit
+;;(require 'magit)
+
+;;zenburn-theme
+(load-theme 'zenburn t)
+
+;;;; markdown-mode
+(autoload 'markdown-mode "markdown-mode"
+"Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;;; Installation
+;;  M-x package-install dash
+(require 'dash)
+
+;; anzu
+(require 'anzu)
+
+;; helm
+(require 'helm-config)
+(require 'helm-ag)
+(require 'helm-descbinds)
+(helm-descbinds-mode)
+
+(global-set-key (kbd "C-;") 'helm-mini)
+(global-set-key (kbd "C-c h") 'helm-mini)
+(global-set-key (kbd "C-c b") 'helm-descbinds)
+(global-set-key (kbd "C-c o") 'helm-occur)
+(global-set-key (kbd "C-c s") 'helm-ag)
+(global-set-key (kbd "C-c y") 'helm-show-kill-ring)
