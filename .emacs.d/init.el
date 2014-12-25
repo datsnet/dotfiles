@@ -12,17 +12,13 @@
 ;; スタートアップメッセージを非表示
 (setq inhibit-startup-screen t)
 
-;; Emacs 23より前のバージョンを利用している方は
-;; user-emacs-directory変数が未定義のため次の設定を追加
-(when (> emacs-major-version 23)
-  (defvar user-emacs-directory "~/.emacs.d"))
 
 ;; ファイル保存
 ;; Mac OS Xの場合のファイル名の設定
-(when (eq system-type 'darwin)
-  (require 'ucs-normalize)
-  (set-file-name-coding-system 'utf-8-hfs)
-  (setq locale-coding-system 'utf-8-hfs))
+;;(when (eq system-type 'darwin)
+;;  (require 'ucs-normalize)
+;;  (set-file-name-coding-system 'utf-8-hfs)
+;;  (setq locale-coding-system 'utf-8-hfs))
 
 ;; Windowsの場合のファイル名の設定
 (when (eq window-system 'w32)
@@ -629,3 +625,30 @@
 (global-set-key (kbd "C-c o") 'helm-occur)
 (global-set-key (kbd "C-c s") 'helm-ag)
 (global-set-key (kbd "C-c y") 'helm-show-kill-ring)
+
+
+;; 透明度を変更するコマンド M-x set-alpha
+;; http://qiita.com/marcy@github/items/ba0d018a03381a964f24
+(defun set-alpha (alpha-num)
+  "set frame parameter 'alpha"
+  (interactive "nAlpha: ")
+  (set-frame-parameter nil 'alpha (cons alpha-num '(90))))
+
+
+;; ElScreen
+(require 'elscreen)
+(if window-system
+	    (define-key elscreen-map "\C-z" 'iconify-or-deiconify-frame)
+    (define-key elscreen-map "\C-z" 'suspend-emacs))
+
+;; ElScreen用キーバインド
+(global-set-key "\M-t" 'elscreen-create)
+(global-set-key "\M-T" 'elscreen-clone)
+(global-set-key "\M-}" 'elscreen-next)
+(global-set-key "\M-{" 'elscreen-previous)
+(global-set-key [(C-tab)] 'elscreen-next)
+(global-set-key [(C-S-tab)] 'elscreen-previous)
+
+;; バッファ切替
+(global-set-key "\M-n" 'next-buffer)
+(global-set-key "\M-p" 'previous-buffer)

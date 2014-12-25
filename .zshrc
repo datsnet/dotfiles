@@ -270,3 +270,59 @@ PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export EDITOR=emacsclient
 export VISUAL=emacsclient
+
+# added by travis gem
+[ -f /Users/uu054593/.travis/travis.sh ] && source /Users/uu054593/.travis/travis.sh
+
+# cdしなくてもディレクトリ移動
+setopt AUTO_CD
+
+# cdコマンドで移動してきた履歴を保存する
+setopt AUTO_PUSHD
+
+## コマンド履歴から実行する
+function peco-execute-history() {
+  local item
+  item=$(builtin history -n -r 1 | peco --query="$LBUFFER")
+
+  if [[ -z "$item" ]]; then
+    return 1
+  fi
+  BUFFER="$item"
+  CURSOR=$#BUFFER
+  zle accept-line
+}
+zle -N peco-execute-history
+bindkey '^Xr' peco-execute-history
+
+## プラグインをまとめて管理する
+## Antigen
+if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; 
+then 
+source $HOME/.zsh/antigen/antigen.zsh
+antigen bundle mollifier/anyframe
+antigen bundle m4i/cdd.git
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen apply
+fi
+
+## anyframe設定
+# bindkey '^Xb' anyframe-widget-cdr
+bindkey '^Xc' anyframe-widget-checkout-git-branch
+bindkey '^Xb' anyframe-widget-insert-git-branch
+
+
+## vcs_info
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+
+zstyle ':vcs-info:*' formats '(%s)-[%b]'
+zstyle ':vcs-info:*' actionformats '(%s)-[%b|%a]'
+
+function _update_vcs_info_msg() {
+  psvar=()
+  LNAG=en_US.UTF-8 vcs_info
+  psvar[1]="$vcs_info_msg_0_"
+}
+add-zsh-hook precmd _update_vcs_info_msg
+RPROMPT="%v"
