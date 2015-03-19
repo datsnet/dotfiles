@@ -11,29 +11,42 @@ case ${UID} in
     ;;
 esac
  
+## rbenv
+eval "$(rbenv init -)"
+
  
 ## Default shell configuration
 #
 # set prompt
 #
+#
+# 色
+#
 autoload colors
 colors
- 
-case ${UID} in
-0)
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %{${fg[red]}%}%n@%m%#%{${reset_color}%} "
-    PROMPT2="%B%{${fg[red]}%}%_#%{${reset_color}%}%b "
-    SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-    RPROMPT="%{${fg[green]}%}[%~:%T]%{${reset_color}%}"
-    ;;
-*)
-    PROMPT="%{${fg[red]}%}%n@%m%%%{${reset_color}%} "
-    PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    RPROMPT="%{${fg[green]}%}[%~:%T]%{${reset_color}%}"
-    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-        PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-    ;;
+
+# プロンプト
+PROMPT="%{${fg[green]}%}%n@%m %{${fg[yellow]}%}%~ %{${fg[red]}%}%# %{${reset_color}%}"
+PROMPT2="%{${fg[yellow]}%} %_ > %{${reset_color}%}"
+SPROMPT="%{${fg[red]}%}correct: %R -> %r ? [n,y,a,e] %{${reset_color}%}"
+
+# ls
+export LSCOLORS=gxfxcxdxbxegedabagacag
+export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;46'
+
+# 補完候補もLS_COLORSに合わせて色が付くようにする
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# lsがカラー表示になるようエイリアスを設定
+case "${OSTYPE}" in
+darwin*)
+  # Mac
+  alias ls="ls -GF"
+  ;;
+linux*)
+  # Linux
+  alias ls='ls -F --color'
+  ;;
 esac
  
 # auto change directory
@@ -159,11 +172,18 @@ SAVEHIST=100000000
 setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
  
+
+#for zsh-completions
+if [[ -f /usr/local/share/zsh-completions ]];
+then
+fpath=(/usr/local/share/zsh-completions $fpath)
+fi
  
 ## Completion configuration
 #
 fpath=(${HOME}/.zsh/functions/Completion ${fpath})
-autoload -U compinit
+autoload -Uz compinit
+compinit -u
 compinit
  
  
@@ -177,85 +197,11 @@ autoload zed
 #autoload predict-on
 #predict-on
  
- 
-## Alias configuration
-#
-# expand aliases before completing
-#
-setopt complete_aliases     # aliased ls needs if file/dir completions work
- 
-alias where="command -v"
-alias j="jobs -l"
- 
-case "${OSTYPE}" in
-freebsd*|darwin*)
-    alias ls="ls -G -w"
-    ;;
-linux*)
-    alias ls="ls --color"
-    ;;
-esac
- 
-alias la="ls -a"
-alias lf="ls -F"
-alias ll="ls -l"
- 
-alias du="du -h"
-alias df="df -h"
- 
-alias su="su -l"
- 
-alias E='emacsclient -t'
-alias kill-emacs="emacsclient -e '(kill-emacs)'"
-
-alias updatedb='sudo /usr/libexec/locate.updatedb'
-
-## terminal configuration
-#
-case "${TERM}" in
-screen)
-    TERM=xterm
-    ;;
-esac
- 
-case "${TERM}" in
-xterm|xterm-color)
-    export LSCOLORS=exfxcxdxbxegedabagacad
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-    ;;
-kterm-color)
-    stty erase '^H'
-    export LSCOLORS=exfxcxdxbxegedabagacad
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-    ;;
-kterm)
-    stty erase '^H'
-    ;;
-cons25)
-    unset LANG
-    export LSCOLORS=ExFxCxdxBxegedabagacad
-    export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors 'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
-    ;;
-jfbterm-color)
-    export LSCOLORS=gxFxCxdxBxegedabagacad
-    export LS_COLORS='di=01;36:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors 'di=;36;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
-    ;;
-esac
- 
-# set terminal title including current directory
-#
-case "${TERM}" in
-xterm|xterm-color|kterm|kterm-color)
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-esac
- 
+  
+# aliasの設定は~/.zsh_aliasesに書けば反映されることになる
+if [ -f ~/.zsh_aliases ]; then 
+. .zsh_aliases
+fi
  
 ## load user .zshrc configuration file
 #
@@ -264,12 +210,13 @@ esac
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 
-ANDROID_HOME=/Users/datsumi1013/AndroidSDK
-PATH=$PATH:$ANDROID_HOME/tools
+#ANDROID_HOME=/Users/datsumi1013/AndroidSDK
+ANDROID_HOME=/Users/atsumidaisuke/Library/Android/sdk
 PATH=$PATH:$ANDROID_HOME/platform-tools
+PATH=$PATH:$ANDROID_HOME/tools
 
-export EDITOR=emacsclient
-export VISUAL=emacsclient
+export EDITOR=vim
+export VISUAL=vim
 
 # added by travis gem
 [ -f /Users/uu054593/.travis/travis.sh ] && source /Users/uu054593/.travis/travis.sh

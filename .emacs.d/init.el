@@ -564,17 +564,17 @@
 
 
 ;; emacsclientの設定
-;;(require 'server)
-;;(unless (server-running-p)
-;;(server-start))
-;;(defun iconify-emacs-when^server-is-done ()
-;;  (unless server-clients (iconify-frame)))
+(require 'server)
+(unless (server-running-p)
+(server-start))
+(defun iconify-emacs-when^server-is-done ()
+  (unless server-clients (iconify-frame)))
 ;; 編集が終了したらEmacsをアイコン化する
-;;(add-hook 'server-done-hook 'iconify-emacs-when^server-is-done)
+(add-hook 'server-done-hook 'iconify-emacs-when^server-is-done)
 ;; C-x C-cに割り当てる
-;;(global-set-key (kbd "C-x C-c") 'server-edit)
+(global-set-key (kbd "C-x C-c") 'server-edit)
 ;; M-x exitでEmacsを終了できるようにする
-;;(defalias 'exit 'save-buffers-kill-emacs)
+(defalias 'exit 'save-buffers-kill-emacs)
 
 
 ;; navi2ch 2チャンネルブラウザ
