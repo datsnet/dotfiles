@@ -1,1 +1,0 @@
-/Users/uu054593/dotfiles/.zsh
