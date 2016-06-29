@@ -27,9 +27,14 @@
  NeoBundle 'ujihisa/unite-colorscheme'
 
  " コード補完
- NeoBundle 'Shougo/neocomplete.vim'
- NeoBundle 'marcus/rsense'
- NeoBundle 'supermomonga/neocomplete-rsense.vim'
+ if has('lua')
+           NeoBundleLazy 'Shougo/neocomplete.vim', {
+               \ 'depends' : 'Shougo/vimproc',
+               \ 'autoload' : { 'insert' : 1,}
+               \ }
+ endif
+ " NeoBundle 'marcus/rsense'
+ " NeoBundle 'supermomonga/neocomplete-rsense.vim'
  
  " 静的解析
  NeoBundle 'scrooloose/syntastic'
